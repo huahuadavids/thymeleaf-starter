@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+  <script type="text/javascript" th:src="@{${resLib}+'js/rem.js'}"></script>
+  <script type="text/javascript" th:src="@{${resLib}+'js/zepto.js'}"></script>
+  <script type="text/javascript" th:src="@{${resMain}+'mobile/js/touch.js'}"></script>
+  <link rel="stylesheet" th:href="@{${resLib}+'css/normalize.css'}"/>
+  <link rel="stylesheet" th:href="@{${resMain}+'mobile/css/main.css'}"/>
+  <script type="text/javascript" th:src="@{${resMain}+'mobile/js/common.js'}"></script>
+  <script type="text/javascript" th:src="@{${resMain}+'mobile/js/jquery.code.js'}"></script>
+  <title layout:title-pattern="$DECORATOR_TITLE - $CONTENT_TITLE">VERCOIN - VERCOIN交易所</title>
+  <link rel="shortcut icon" th:href="@{/vercoin-resources/favicon.ico}" type="image/x-icon"/>
+</head>
+<body>
+
+<!--/* main contents */-->
+<div id="main_content" layout:fragment="main_content">
+
+</div>
+
+
+
+</body>
+
+
+</html>
+

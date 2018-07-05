@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<body>
+
+
+<!--
+    * @name header
+    * <div th:replace="mobile/layout-common :: header('n','')"></div>         // 两边空的header
+    * <div th:replace="mobile/layout-common :: header('logo','')"></div>      // 左边返回 ，右边logo
+    * <div th:replace="mobile/layout-common :: header('register','')"></div>  // 左边返回 ，右边a链接
+    * <div th:replace="mobile/layout-common :: header('logo','忘记登录密码')"></div>
+-->
+
+<header class="common-header" th:fragment="header(text,title)">
+  <div class="common-header-left" th:if=" ${#strings.length(text) gt 2}">
+    <img th:src="@{${resMain} + 'mobile' + '/images/back@3x.png'}" alt=""/>
+  </div>
+  <div class="common-header-center">
+    <img th:if="${#strings.isEmpty(title)}" th:src="@{${resMain} + 'mobile' + '/images/logo0@3x.png'}" alt=""/>
+    <span th:unless="${#strings.isEmpty(title)}" class="f36 c-fff" th:text="${title}"></span>
+  </div>
+  <div class="common-header-right" th:if=" ${#strings.length(text) gt 2}">
+    <img th:src="@{${resMain} + 'mobile' + '/images/logo@3x.png'}" alt="" th:if=" ${#strings.length(text) eq 4}"/>
+    <a class="f28 c-fff" th:if=" ${#strings.length(text) gt 4}" th:href="|/${text}|" th:text="#{${text}}">注册</a>
+  </div>
+</header>
+
+
+<!--
+    * @name footer
+    * @use  <div th:replace="mobile/layout-common :: footer(1)"></div>
+-->
+
+
+<footer class="common-footer" th:fragment="footer(index)">
+  <div class="common-footer-nav">
+    <a class="common-footer-nav-list" href="/">
+      <div class="common-footer-list">
+        <img th:src="@{${resMain} + 'mobile/images/home'+ ${index == 1 ? '1': '0'} + '@3x.png'}" alt=""/>
+      </div>
+      <p th:class="${index == 1 ? 'active f20':'f20 c-c2c2c2'} ">主页</p>
+    </a>
+    <a class="common-footer-nav-list" id="trade" th:href="${currentUser !=null ? '/my/advertisement/buylist/ONLINESELL' : '#trade'}">
+      <div class="common-footer-list">
+        <img th:src="@{${resMain} + 'mobile/images/trade'+ ${index == 2 ? '1': '0'}  + '@3x.png'}" alt=""/>
+      </div>
+      <p th:class="${index == 2 ? 'active f20':'f20 c-c2c2c2'} ">交易</p>
+    </a>
+    <a class="common-footer-nav-list" th:href="${currentUser !=null ? '/my/account/center' : '#me'}">
+      <div class="common-footer-list">
+        <img th:src="@{${resMain} + 'mobile/images/my'+ ${index == 3 ? '1': '0'} + '@3x.png'}" alt=""/>
+      </div>
+      <p th:class="${index == 3 ? 'active f20':'f20 c-c2c2c2'} ">我的</p>
+    </a>
+  </div>
+</footer>
+
+
+<!--
+    * @name tab
+    * @use    <div th:replace="mobile/layout-common :: tab(${#arrays.toArray({'我要购买$#trade','我要出售$#trade','发布广告$#trade'})},1)"></div>
+-->
+
+<ul th:class="|common-tab-${list.length} common-tab mb0 |" th:fragment="tab(list,a)">
+  <a th:href="${#strings.arraySplit(item,'$')[1]}" th:each="item,stat :  ${list}">
+    <li  th:text="${#strings.arraySplit(item,'$')[0]}" th:class="${stat.index == a?'active':''}" ></li>
+  </a>
+</ul>
+
+
+<!--
+  *@name 个人中心列表
+  *@use <div th:replace="mobile/layout-common :: homeList(isLogin)"></div>
+-->
+
+<div class="homepage-list" th:fragment="homeList(login)">
+  <div class="common-line"></div>
+  <div class="common-homepage-list">
+    <div class="common-homepage-list-detail" th:href="${login}?'/my/advertisement/mobile/list?type=ONLINEBUY':'javascript:void(0)'">
+      <a th:href="${login}?'/my/advertisement/mobile/list?type=ONLINEBUY':'javascript:void(0)'">
+        <img th:src="@{${resMain} + 'mobile' +'/images/adver@3x.png'}" alt="" class="lefticon"/>
+        <em class="c-333 f32">我的广告</em>
+      </a>
+      <div class="righticon">
+        <img th:src="@{${resMain} + 'mobile' +'/images/Group%202@3x.png'}" alt=""/>
+      </div>
+    </div>
+  </div>
+  <div class="common-homepage-list border">
+    <div class="common-homepage-list-detail" th:href="${login}?'/my/order/ALL/orderDetail ':'javascript:void(0)'">
+      <a th:href="${login}?'/my/order/ALL/orderDetail ':'javascript:void(0)'">
+        <img th:src="@{${resMain} + 'mobile' +'/images/Shape@3x.png'}" alt="" class="lefticon"/>
+        <em class="c-333 f32">我的订单</em>
+      </a>
+      <a class="righticon" href="javascript:void(0)">
+        <img th:src="@{${resMain} + 'mobile' +'/images/Group%202@3x.png'}" alt=""/>
+      </a>
+    </div>
+  </div>
+  <div class="common-line"></div>
+  <div class="common-homepage-list border">
+    <div class="common-homepage-list-detail" th:href="${login}?'#assets':'javascript:void(0)'">
+      <a th:href="${login}?'#assets':'javascript:void(0)'">
+        <img th:src="@{${resMain} + 'mobile' +'/images/accasset@3x.png'}" alt="" class="lefticon"/>
+        <em class="c-333 f32">我的资产</em>
+      </a>
+      <div class="righticon">
+        <img th:src="@{${resMain} + 'mobile' +'/images/Group%202@3x.png'}" alt=""/>
+      </div>
+    </div>
+  </div>
+  <div class="common-line"></div>
+  <div class="common-homepage-list">
+    <div class="common-homepage-list-detail" th:href="${login}?'#infoDetail':'javascript:void(0)'">
+      <a th:href="${login}?'#infoDetail':'javascript:void(0)'">
+        <img th:src="@{${resMain} + 'mobile' +'/images/info@3x.png'}" alt="" class="lefticon"/>
+        <em class="c-333 f32">基础信息</em>
+      </a>
+      <div class="righticon">
+        <img th:src="@{${resMain} + 'mobile' +'/images/Group%202@3x.png'}" alt=""/>
+      </div>
+    </div>
+  </div>
+  <div class="common-homepage-list border">
+    <div class="common-homepage-list-detail" th:href="${login}?'/my/account/card':'javascript:void(0)'">
+      <a th:href="${login}?'/my/account/card':'javascript:void(0)'">
+        <img th:src="@{${resMain} + 'mobile' +'/images/identi@3x.png'}" alt="" class="lefticon"/>
+        <em class="c-333 f32">身份认证</em>
+      </a>
+      <div class="righticon">
+        <img th:src="@{${resMain} + 'mobile' +'/images/Group%202@3x.png'}" alt=""/>
+      </div>
+    </div>
+  </div>
+  <div class="common-line"></div>
+  <div class="common-homepage-list">
+    <div class="common-homepage-list-detail" th:href="${login}?'/my/account/payment':'javascript:void(0)'">
+      <a th:href="${login}?'/my/account/payment':'javascript:void(0)'">
+          <img th:src="@{${resMain} + 'mobile' +'/images/accmanage@3x.png'}" alt="" class="lefticon"/>
+          <em class="c-333 f32">账户设置</em>
+      </a>
+      <div class="righticon">
+        <img th:src="@{${resMain} + 'mobile' +'/images/Group%202@3x.png'}" alt=""/>
+      </div>
+    </div>
+  </div>
+  <div class="common-homepage-list border setting">
+    <div class="common-homepage-list-detail" th:href="${login}?'/my/account/security':'javascript:void(0)'">
+      <a th:href="${login}?'/my/account/security':'javascript:void(0)'">
+        <img th:src="@{${resMain} + 'mobile' +'/images/safe@3x.png'}" alt="" class="lefticon"/>
+        <em class="c-333 f32">安全设置</em>
+      </a>
+      <div class="righticon">
+        <img th:src="@{${resMain} + 'mobile' +'/images/Group%202@3x.png'}" alt=""/>
+      </div>
+    </div>
+  </div>
+  <div class="common-line"></div>
+  <div class="common-homepage-list border login" th:if="${login}" >
+    <div class="common-homepage-list-detail logout" style="display:block;">
+      <a href="javascript:void(0)" >
+        <img th:src="@{${resMain} + 'mobile' +'/images/signout@3x.png'}" alt="" class="lefticon"/>
+        <em class="c-333 f32">退出登录</em>
+      </a>
+      <div class="righticon">
+        <img th:src="@{${resMain} + 'mobile' +'/images/Group%202@3x.png'}" alt=""/>
+      </div>
+    </div>
+  </div>
+  <div class="common-line" th:if="${login}"></div>
+</div>
+
+
+</body>
+</html>
